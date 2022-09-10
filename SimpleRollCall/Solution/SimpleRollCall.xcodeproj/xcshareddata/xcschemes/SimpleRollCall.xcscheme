@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1A2877B824F74539000F0B78"
-               BuildableName = "CalHacksDemo.app"
-               BlueprintName = "CalHacksDemo"
-               ReferencedContainer = "container:CalHacksDemo.xcodeproj">
+               BuildableName = "SimpleRollCall.app"
+               BlueprintName = "SimpleRollCall"
+               ReferencedContainer = "container:SimpleRollCall.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1A2877B824F74539000F0B78"
-            BuildableName = "CalHacksDemo.app"
-            BlueprintName = "CalHacksDemo"
-            ReferencedContainer = "container:CalHacksDemo.xcodeproj">
+            BuildableName = "SimpleRollCall.app"
+            BlueprintName = "SimpleRollCall"
+            ReferencedContainer = "container:SimpleRollCall.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1A2877B824F74539000F0B78"
-            BuildableName = "CalHacksDemo.app"
-            BlueprintName = "CalHacksDemo"
-            ReferencedContainer = "container:CalHacksDemo.xcodeproj">
+            BuildableName = "SimpleRollCall.app"
+            BlueprintName = "SimpleRollCall"
+            ReferencedContainer = "container:SimpleRollCall.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

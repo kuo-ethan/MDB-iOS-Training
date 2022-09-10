@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1A2877B924F74539000F0B78 /* CalHacksDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CalHacksDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A2877B924F74539000F0B78 /* SimpleRollCall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleRollCall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A2877BC24F74539000F0B78 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A2877BE24F74539000F0B78 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1A2877C324F74539000F0B78 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -44,7 +44,7 @@
 		1A2877B024F74539000F0B78 = {
 			isa = PBXGroup;
 			children = (
-				1A2877BB24F74539000F0B78 /* CalHacksDemo */,
+				1A2877BB24F74539000F0B78 /* SimpleRollCall */,
 				1A2877BA24F74539000F0B78 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,12 +52,12 @@
 		1A2877BA24F74539000F0B78 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1A2877B924F74539000F0B78 /* CalHacksDemo.app */,
+				1A2877B924F74539000F0B78 /* SimpleRollCall.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1A2877BB24F74539000F0B78 /* CalHacksDemo */ = {
+		1A2877BB24F74539000F0B78 /* SimpleRollCall */ = {
 			isa = PBXGroup;
 			children = (
 				1A4458992722A8FB0088662A /* Models */,
@@ -67,7 +67,7 @@
 				1A2877C524F7453B000F0B78 /* Assets.xcassets */,
 				1A2877C724F7453B000F0B78 /* LaunchScreen.storyboard */,
 			);
-			path = CalHacksDemo;
+			path = SimpleRollCall;
 			sourceTree = "<group>";
 		};
 		1A4458972722A8C00088662A /* Roll Call */ = {
@@ -100,9 +100,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1A2877B824F74539000F0B78 /* CalHacksDemo */ = {
+		1A2877B824F74539000F0B78 /* SimpleRollCall */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1A2877CD24F7453B000F0B78 /* Build configuration list for PBXNativeTarget "CalHacksDemo" */;
+			buildConfigurationList = 1A2877CD24F7453B000F0B78 /* Build configuration list for PBXNativeTarget "SimpleRollCall" */;
 			buildPhases = (
 				1A2877B524F74539000F0B78 /* Sources */,
 				1A2877B624F74539000F0B78 /* Frameworks */,
@@ -112,9 +112,9 @@
 			);
 			dependencies = (
 			);
-			name = CalHacksDemo;
+			name = SimpleRollCall;
 			productName = Demo_Private;
-			productReference = 1A2877B924F74539000F0B78 /* CalHacksDemo.app */;
+			productReference = 1A2877B924F74539000F0B78 /* SimpleRollCall.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -132,7 +132,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1A2877B424F74539000F0B78 /* Build configuration list for PBXProject "CalHacksDemo" */;
+			buildConfigurationList = 1A2877B424F74539000F0B78 /* Build configuration list for PBXProject "SimpleRollCall" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -145,7 +145,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1A2877B824F74539000F0B78 /* CalHacksDemo */,
+				1A2877B824F74539000F0B78 /* SimpleRollCall */,
 			);
 		};
 /* End PBXProject section */
@@ -319,12 +319,12 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = CalHacksDemo/Info.plist;
+				INFOPLIST_FILE = SimpleRollCall/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cc.miclin.CalHacksDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = cc.miclin.SimpleRollCall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -339,12 +339,12 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = CalHacksDemo/Info.plist;
+				INFOPLIST_FILE = SimpleRollCall/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = cc.miclin.CalHacksDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = cc.miclin.SimpleRollCall;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -355,7 +355,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1A2877B424F74539000F0B78 /* Build configuration list for PBXProject "CalHacksDemo" */ = {
+		1A2877B424F74539000F0B78 /* Build configuration list for PBXProject "SimpleRollCall" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A2877CB24F7453B000F0B78 /* Debug */,
@@ -364,7 +364,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1A2877CD24F7453B000F0B78 /* Build configuration list for PBXNativeTarget "CalHacksDemo" */ = {
+		1A2877CD24F7453B000F0B78 /* Build configuration list for PBXNativeTarget "SimpleRollCall" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A2877CE24F7453B000F0B78 /* Debug */,
