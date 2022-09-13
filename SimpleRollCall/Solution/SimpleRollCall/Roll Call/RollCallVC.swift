@@ -23,7 +23,7 @@ class RollCallVC: UIViewController {
             config.buttonSize = .large
             presentButton.configuration = config
             presentButton.addAction(UIAction { [unowned self] _ in
-                Roster.main.addName(toPresent: self.currentName)
+                Roster.main.name(self.currentName, isPresent: true)
                 self.showNextNameOrResult()
             }, for: .touchUpInside)
         }
@@ -40,7 +40,7 @@ class RollCallVC: UIViewController {
             config.buttonSize = .large
             absentButton.configuration = config
             absentButton.addAction(UIAction { [unowned self] _ in
-                Roster.main.addName(toAbsent: self.currentName)
+                Roster.main.name(self.currentName, isPresent: false)
                 self.showNextNameOrResult()
             }, for: .touchUpInside)
         }

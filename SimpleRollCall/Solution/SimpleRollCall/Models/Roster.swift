@@ -27,8 +27,8 @@ class Roster {
         }
     }
     
-    // MDB Newbies - Class of Spring 2022
-    let names = ["Blake", "David", "Jeffrey", "Marco", "Mod", "Mustafa", "Noah"]
+    // MDB Newbies - Class of Fall 2022
+    let names = ["Emily", "Ethan", "Jeffrey", "Jennifer",]
     
     private(set) var remainingNames = [String]()
     
@@ -48,12 +48,12 @@ class Roster {
         return remainingNames.popLast()
     }
     
-    func addName(toPresent name: String) {
-        namesPresent.append(name)
-    }
-    
-    func addName(toAbsent name: String) {
-        namesAbsent.append(name)
+    func name(_ name: String, isPresent present: Bool) {
+        if present {
+            namesPresent.append(name)
+        } else {
+            namesAbsent.append(name)
+        }
     }
     
     func hasNamesLeft() -> Bool {
