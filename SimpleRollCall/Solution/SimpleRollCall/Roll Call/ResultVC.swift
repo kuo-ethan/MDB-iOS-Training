@@ -52,7 +52,7 @@ class ResultVC: UIViewController {
             config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .medium)
             shareButton.configuration = config
             shareButton.addAction(UIAction { [unowned self] _ in
-                let url = Roster.main.resultToFile()!
+                let url = Roster.main.saveResultToFile()!
                 let activityController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
                 self.present(activityController, animated: true, completion: nil)
             }, for: .touchUpInside)

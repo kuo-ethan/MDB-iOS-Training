@@ -9,7 +9,22 @@
 import UIKit
 
 class RollCallVC: UIViewController {
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .systemRed
+        self.view.addSubview(view)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            view.heightAnchor.constraint(equalToConstant: 88),
+            view.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            view.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+        ])
+    }
 //    private func showNextNameOrResult() {
 //        if let name = Roster.main.getNextName() {
 //            setUserInteractionEnabled(to: false)

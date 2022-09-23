@@ -28,7 +28,7 @@ class Roster {
     }
     
     // MDB Newbies - Class of Fall 2022
-    let names = ["Emily", "Ethan", "Jeffrey", "Jennifer",]
+    let names = ["Emily", "Ethan", "Jennifer",]
     
     private(set) var remainingNames = [String]()
     
@@ -44,7 +44,7 @@ class Roster {
         namesAbsent = []
     }
     
-    func getNextName() -> String? {
+    func nextName() -> String? {
         return remainingNames.popLast()
     }
     
@@ -60,7 +60,7 @@ class Roster {
         return remainingNames.count != 0
     }
     
-    func resultToFile() -> URL? {
+    func saveResultToFile() -> URL? {
         let result = Result(withRoster: self)
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted

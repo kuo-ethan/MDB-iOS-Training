@@ -17,8 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
         // MARK: STEP 4: Setup entry point
-        // Update Sp22: Comment out line 25:38 if using storyboard
+        //
         // Action Items:
+        // - Comment out line 25:38 if you are using storyboard
         // - Read the code. Here's what it does and why we do it:
         //      Usually, the initial view controller is initialized by IB.
         //      But because we are not using IB for this project, we need to
@@ -26,7 +27,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //      the five lines in this method and you will see a runtime
         //      error about entry point not set.
         
-        //      This delegate method is called every time the App is launched.
+        //      This delegate method is called every time an instance
+        //      of the app is launched.
         //      So we will use it to initialize a `StartVC` and assign it to the
         //      root view controller. This effectively makes `StartVC` our
         //      initial view controller.

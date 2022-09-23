@@ -9,13 +9,10 @@ import UIKit
 
 // MARK: STEP 0 - Before We Start
 // Before we kick off our first project. You should know that
-// you are not obligated to follow the steps. Depending on how
-// you approach things, finishing all of the steps might not
+// you are not obligated to follow these steps. Depending on how
+// you approach certain things, finishing all of the steps might not even
 // mean finishing the project. Be sure to check the spec to
 // see what needs to be done.
-
-// Also please make sure that you read understand the skeleton
-// code and comments, they will be super helpful in the future.
 
 class StartVC: UIViewController {
     

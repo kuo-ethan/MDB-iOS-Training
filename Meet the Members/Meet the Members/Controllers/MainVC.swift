@@ -63,7 +63,8 @@ class MainVC: UIViewController {
         // Additional Information:
         // If you don't like the default presentation style,
         // you can change it to full screen too! However, in this
-        // case you will have to find a way to manually to call
+        // case, because user can no longer swipe down to dismiss
+        // the sheet, you will have to find a way to manually to call
         // dismiss(animated: true, completion: nil) in order
         // to go back.
         //

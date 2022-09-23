@@ -52,11 +52,11 @@ class RollCallVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        nameLabel.text = Roster.main.getNextName()
+        nameLabel.text = Roster.main.nextName()
     }
     
     private func showNextNameOrResult() {
-        if let name = Roster.main.getNextName() {
+        if let name = Roster.main.nextName() {
             setUserInteractionEnabled(to: false)
             UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear, animations: {
                 self.nameLabel.alpha = 0
