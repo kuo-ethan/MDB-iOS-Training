@@ -71,6 +71,26 @@ class MainVC: UIViewController {
         // modalPresentationStyle = .fullScreen
         
         // MARK: >> Your Code Here <<
+        view.addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
+            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            imageView.heightAnchor.constraint(equalToConstant: 300)
+        ])
+        
+        
+        for i in 0...3 {
+            let button = buttons[i]
+            view.addSubview(button)
+            NSLayoutConstraint.activate([
+                button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: CGFloat(-100 * i)),
+                button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+                button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+                button.heightAnchor.constraint(equalToConstant: 100)
+            ])
+        }
+        
         
         getNextQuestion()
         
@@ -103,9 +123,14 @@ class MainVC: UIViewController {
         //   the question instance
         
         // MARK: >> Your Code Here <<
-        let question = QuestionProvider.shared.nextQuestion()
-        imageView = question.image
-        buttons = question.choices
+        if let question = QuestionProvider.shared.nextQuestion() {
+            imageView.image = question.image
+            for i in 0...3 {
+                buttons[i].setTitle(question.choices[i], for: .normal)
+            }
+        } else {
+            return
+        }
         
     }
     
