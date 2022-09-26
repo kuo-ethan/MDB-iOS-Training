@@ -103,6 +103,10 @@ class MainVC: UIViewController {
         //   the question instance
         
         // MARK: >> Your Code Here <<
+        let question = QuestionProvider.shared.nextQuestion()
+        imageView = question.image
+        buttons = question.choices
+        
     }
     
     // MARK: STEP 8: Buttons and Timer Callback

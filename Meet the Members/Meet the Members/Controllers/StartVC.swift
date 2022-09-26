@@ -22,7 +22,7 @@ class StartVC: UIViewController {
         // == UIColor.darkGray
         label.textColor = .darkGray
         
-        label.text = "Meet the Member"
+        label.text = "Meet the Members"
         
         // == NSTextAlignment(expected type).center
         label.textAlignment = .center
@@ -41,7 +41,7 @@ class StartVC: UIViewController {
         
         button.setTitle("Start", for: .normal)
         
-        button.setTitleColor(.blue, for: .normal)
+        button.setTitleColor(.black, for: .normal)
         
         // MARK: STEP 1: UIButton Customization
         // Action Items:
@@ -54,6 +54,8 @@ class StartVC: UIViewController {
         // where you will find all the available APIs.
         
         // MARK: >> Your Code Here <<
+        button.backgroundColor = .systemGreen
+        button.configuration = .borderless()
         
         button.translatesAutoresizingMaskIntoConstraints = false
         
@@ -109,9 +111,13 @@ class StartVC: UIViewController {
         ])
         
         // MARK: >> Your Code Here <<
+        view.addSubview(startButton)
         
         NSLayoutConstraint.activate([
             // MARK: >> Your Code Here <<
+            startButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
+            startButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            startButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50)
         ])
         
         
