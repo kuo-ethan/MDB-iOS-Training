@@ -55,7 +55,6 @@ class StartVC: UIViewController {
         
         // MARK: >> Your Code Here <<
         button.backgroundColor = .systemGreen
-        button.configuration = .borderless()
         
         button.translatesAutoresizingMaskIntoConstraints = false
         
@@ -144,6 +143,7 @@ class StartVC: UIViewController {
     @objc func didTapStart(_ sender: UIButton) {
         // Initialize an instance of MainVC
         let vc = MainVC()
+        vc.modalPresentationStyle = .fullScreen
         // Use the present function to modally present the MainVC
         present(vc, animated: true, completion: nil)
     }

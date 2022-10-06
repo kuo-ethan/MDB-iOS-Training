@@ -8,22 +8,52 @@
 import Foundation
 import UIKit
 
+
+// Indicates whether the game is paused. Global so accessible by other VCs.
+var paused: Bool = false
+
 class MainVC: UIViewController {
     
     // Create a property for our timer, we will initialize it in viewDidLoad
     var timer: Timer?
     
+    // Time elapsed
+    var timeLeft = 5
+    
+    // Freeze for two seconds
+    var freeze = -1
+    
+    // Current correct answer
+    var answer: Int?
+    
+    
+    // Answer streak
+    var streak: Int = 0
+    
+    // Score
+    var score: Int = 0
+    
+    // Last three answers
+    var lastThree: [Bool] = []
+    
     // MARK: STEP 7: UI Customization
     // Action Items:
     // - Customize your imageView and buttons.
+    
+    let scoreLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Score: 0"
+        return label
+    }()
     
     let imageView: UIImageView = {
         let view = UIImageView()
         
         // MARK: >> Your Code Here <<
-    
+        view.contentMode = .scaleAspectFit
         view.translatesAutoresizingMaskIntoConstraints = false
-        
         return view
     }()
     
@@ -35,12 +65,32 @@ class MainVC: UIViewController {
             button.tag = index
             
             // MARK: >> Your Code Here <<
-            
+            button.backgroundColor = .systemCyan
             button.translatesAutoresizingMaskIntoConstraints = false
-            
             return button
         }
         
+    }()
+    
+    let timeLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Time left: 5"
+        return label
+    }()
+    
+    let pauseButton: UIButton = {
+        let button = UIButton()
+        var config = UIButton.Configuration.tinted()
+        config.title = "Pause"
+        config.baseBackgroundColor = .systemGreen // background color
+        config.baseForegroundColor = .systemGreen // text color
+        config.imagePadding = 10
+        config.buttonSize = .small
+        button.configuration = config
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     // MARK: STEP 10: Stats Button
@@ -50,6 +100,18 @@ class MainVC: UIViewController {
     // callback function `didTapStats(_:)` was written for you.
     
     // MARK: >> Your Code Here <<
+    let statsButton: UIButton = {
+        let button = UIButton()
+        var config = UIButton.Configuration.tinted()
+        config.title = "Stats"
+        config.baseBackgroundColor = .systemGreen // background color
+        config.baseForegroundColor = .systemGreen // text color
+        config.imagePadding = 10
+        config.buttonSize = .small
+        button.configuration = config
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     override func viewDidLoad() {
         view.backgroundColor = .white
@@ -68,7 +130,7 @@ class MainVC: UIViewController {
         // dismiss(animated: true, completion: nil) in order
         // to go back.
         //
-        // modalPresentationStyle = .fullScreen
+        modalPresentationStyle = .fullScreen
         
         // MARK: >> Your Code Here <<
         view.addSubview(imageView)
@@ -76,7 +138,19 @@ class MainVC: UIViewController {
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-            imageView.heightAnchor.constraint(equalToConstant: 300)
+            imageView.heightAnchor.constraint(equalToConstant: 300),
+        ])
+        
+        view.addSubview(timeLabel)
+        NSLayoutConstraint.activate([
+            timeLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
+            timeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        ])
+        
+        view.addSubview(scoreLabel)
+        NSLayoutConstraint.activate([
+            scoreLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            scoreLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
         
         
@@ -84,14 +158,14 @@ class MainVC: UIViewController {
             let button = buttons[i]
             view.addSubview(button)
             NSLayoutConstraint.activate([
-                button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: CGFloat(-100 * i)),
+                button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: CGFloat(-75 * (i + 1))),
                 button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
                 button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-                button.heightAnchor.constraint(equalToConstant: 100)
+                button.heightAnchor.constraint(equalToConstant: 50)
             ])
         }
         
-        
+        startTimer()
         getNextQuestion()
         
         // MARK: STEP 9: Bind Callbacks to the Buttons
@@ -99,12 +173,31 @@ class MainVC: UIViewController {
         // - Bind the `didTapAnswer(_:)` function to the buttons.
         
         // MARK: >> Your Code Here <<
+        for i in 0...3 {
+            buttons[i].addAction(UIAction(handler: tapAnswerHandler), for: .touchUpInside)
+        }
+        
         
         
         // MARK: STEP 10: Stats Button
         // See instructions above.
         
         // MARK: >> Your Code Here <<
+        statsButton.addAction(UIAction(handler: tapStatsHandler), for: .touchUpInside)
+        view.addSubview(statsButton)
+        NSLayoutConstraint.activate([
+            statsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            statsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            statsButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        pauseButton.addAction(UIAction(handler: tapPauseResumeHandler), for: .touchUpInside)
+        view.addSubview(pauseButton)
+        NSLayoutConstraint.activate([
+            pauseButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            pauseButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            pauseButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
     
     // What's the difference between viewDidLoad() and
@@ -126,6 +219,9 @@ class MainVC: UIViewController {
         if let question = QuestionProvider.shared.nextQuestion() {
             imageView.image = question.image
             for i in 0...3 {
+                if question.choices[i] == question.answer {
+                    answer = i
+                }
                 buttons[i].setTitle(question.choices[i], for: .normal)
             }
         } else {
@@ -162,16 +258,86 @@ class MainVC: UIViewController {
     @objc func timerCallback() {
         
         // MARK: >> Your Code Here <<
+        if paused {
+            return
+        }
+        
+        if freeze > 0 {
+            freeze -= 1
+        } else if freeze == 0 {
+            freeze -= 1
+            timeLeft = 5
+            for button in buttons {
+                button.backgroundColor = .systemCyan
+            }
+            getNextQuestion()
+        } else {
+            // Not frozen
+            timeLeft -= 1
+            if timeLeft == 0 {
+                // Ran out of time
+                buttons[answer!].backgroundColor = .systemGreen
+                freeze = 2
+                streak = 0
+                updateLastThree(false)
+                
+            }
+        }
+        
+        timeLabel.text = "Time left: \(max(timeLeft, 0))"
     }
     
     func tapAnswerHandler(_ action: UIAction) {
-        // MARK: >> Your Code Here <<
-
+        if paused {
+            return
+        }
+        guard let sender = action.sender, let button = sender as? UIButton else {
+            return
+        }
+        if button.tag == answer {
+            button.backgroundColor = .systemGreen
+            score += 1
+            streak += 1
+            updateLastThree(true)
+            scoreLabel.text = "Score: \(score)"
+        } else {
+            button.backgroundColor = .systemRed
+            updateLastThree(false)
+            streak = 0
+        }
+        freeze = 2
+    }
+            
+    func updateLastThree(_ correct: Bool) {
+        lastThree.append(correct)
+        if lastThree.count > 3 {
+            lastThree.remove(at: 0)
+        }
+    }
+    
+    func tapPauseResumeHandler(_ action: UIAction) {
+        guard let sender = action.sender, let button = sender as? UIButton else {
+            return
+        }
+        paused = !paused
+        if paused { // Then we are in the paused screen
+            button.setTitle("Resume", for: .normal)
+        } else {
+            button.setTitle("Pause", for: .normal)
+        }
+        
+        
     }
     
     func tapStatsHandler(_ action: UIAction) {
-        
-        let vc = StatsVC(data: "Hello")
+        paused = true
+        var lastThreeCount = 0
+        for b in lastThree {
+            if b {
+                lastThreeCount += 1
+            }
+        }
+        let vc = StatsVC(data: "Your answer streak is \(streak), and you got \(lastThreeCount) of the last three questions correct.")
         
         vc.modalPresentationStyle = .fullScreen
         
@@ -188,7 +354,7 @@ class MainVC: UIViewController {
         // - Read the example in StatsVC.swift, and replace it with
         //   your custom init for `StatsVC`
         // - Update the call site here on line 139
-        
+
         present(vc, animated: true, completion: nil)
     }
 }
