@@ -9,8 +9,8 @@ import UIKit
 
 class SettingsVC: UIViewController {
     
-    // Use a single SettingsVC to save state
-    static let shared = SettingsVC()
+    // SettingsVC should have access to the collection view in order to change layouts
+    var collectionView: UICollectionView! = nil
     
     let settingsLabel: UILabel = {
         let label = UILabel()
@@ -59,8 +59,9 @@ class SettingsVC: UIViewController {
         return button
     }()
     
-    init() {
+    init(_ collectionView: UICollectionView) {
         super.init(nibName: nil, bundle: nil)
+        self.collectionView = collectionView
     }
     
     required init?(coder: NSCoder) {
@@ -116,6 +117,6 @@ class SettingsVC: UIViewController {
     }
     
     func layoutSwitchHandler(_action: UIAction) {
-        
+        collectionView.performBatchUpdates(nil, completion: nil)
     }
 }

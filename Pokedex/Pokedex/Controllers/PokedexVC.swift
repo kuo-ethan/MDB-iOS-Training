@@ -9,9 +9,9 @@ import UIKit
 
 class PokedexVC: UIViewController {
     
-    let gridLayoutOn = true
-    
     let pokemons = PokemonGenerator.shared.getPokemonArray()
+    
+    var settingsVC: SettingsVC! = nil
     
     let settingsButton: UIButton = {
         let button = UIButton()
@@ -45,6 +45,10 @@ class PokedexVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Create a single SettingsVC (to save state)
+        settingsVC = SettingsVC(collectionView)
+        settingsVC.modalPresentationStyle = .fullScreen
+        
         // Display settings button
         view.addSubview(settingsButton)
         settingsButton.addAction(UIAction(handler: tapSettingsHandler), for: .touchUpInside)
@@ -76,9 +80,7 @@ class PokedexVC: UIViewController {
     }
     
     func tapSettingsHandler(_ action: UIAction) {
-        let vc = SettingsVC.shared
-        vc.modalPresentationStyle = .fullScreen
-        present(vc, animated: true, completion: nil)
+        present(settingsVC, animated: true, completion: nil)
     }
 }
 
@@ -103,7 +105,7 @@ extension PokedexVC: UICollectionViewDataSource {
 extension PokedexVC: UICollectionViewDelegateFlowLayout {
     // Get the size of a cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if SettingsVC.shared.gridSwitch.isOn {
+        if settingsVC.gridSwitch.isOn {
             return CGSize(width: 80, height: 100) // 3 pokemon per row
         } else {
             return CGSize(width: 160, height: 200) // 1 pokemon per row
@@ -135,13 +137,16 @@ class PokemonCell: UICollectionViewCell {
         let image = UIImageView()
         image.tintColor = .white
         image.contentMode = .scaleAspectFit
-        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
     private let nameIDLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
+        label.font = .systemFont(ofSize: 8, weight: .medium)
+        label.frame = CGRect(x: 0, y: 80, width: 70, height: 10)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
         return label
     }()
     
