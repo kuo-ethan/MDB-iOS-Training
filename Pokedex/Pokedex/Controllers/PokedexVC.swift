@@ -11,6 +11,8 @@ class PokedexVC: UIViewController {
     
     let pokemons = PokemonGenerator.shared.getPokemonArray()
 
+    
+    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
