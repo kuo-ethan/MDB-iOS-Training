@@ -64,6 +64,7 @@ class PokedexVC: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Pokemon"
         navigationItem.searchController = searchController
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
         navigationItem.title = "Pokedex"
 
         
