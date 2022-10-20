@@ -8,9 +8,9 @@
 import Foundation
 import FirebaseFirestore
 
-class DatabaseRequest {
+class Database {
     
-    static let shared = DatabaseRequest()
+    static let shared = Database()
     
     let db = Firestore.firestore()
     
@@ -33,5 +33,5 @@ class DatabaseRequest {
     }
     
     /* TODO: Events getter */
-    // For example, see SOCAuthManager.linkUser(withuid:completion:)
+    // For example, see Authentication.linkUser(withuid:completion:)
 }

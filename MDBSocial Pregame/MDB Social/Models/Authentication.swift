@@ -1,5 +1,5 @@
 //
-//  AuthManager.swift
+//  Authentication.swift
 //  MDB Social
 //
 //  Created by Michael Lin on 10/9/21.
@@ -9,21 +9,13 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
-class AuthManager {
+class Authentication {
     
-    static let shared = AuthManager()
+    static let shared = Authentication()
     
     let auth = Auth.auth()
     
-    enum SignInErrors: Error {
-        case wrongPassword
-        case userNotFound
-        case invalidEmail
-        case internalError
-        case errorFetchingUserDoc
-        case errorDecodingUserDoc
-        case unspecified
-    }
+    enum SignInErrors: Error {}
     
     let db = Firestore.firestore()
     
@@ -40,7 +32,7 @@ class AuthManager {
     func signIn(withEmail email: String, password: String,
                 completion: ((Result<User, SignInErrors>)->Void)?) {
         
-        /* TODO: Hackshop */
+        /* TODO: Demo */
     }
     
     /* TODO: Firebase sign up handler, add user to firestore */
@@ -60,7 +52,7 @@ class AuthManager {
     private func linkUser(withuid uid: String,
                           completion: ((Result<User, SignInErrors>)->Void)?) {
         
-        /* TODO: Hackshop */
+        /* TODO: Demo */
     }
     
     private func unlinkCurrentUser() {

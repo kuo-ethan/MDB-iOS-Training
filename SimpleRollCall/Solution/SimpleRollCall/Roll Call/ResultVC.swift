@@ -59,3 +59,31 @@ class ResultVC: UIViewController {
         }
     }
 }
+
+protocol CustomViewDataSource: AnyObject {}
+
+class CustomView: UIView {
+
+    let dataSource: CustomViewDataSource
+
+    init(dataSource: CustomViewDataSource) {
+        self.dataSource = dataSource
+        super.init(frame: .zero)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class ViewController: UIViewController, CustomViewDataSource {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let view = CustomView(dataSource: self)
+        self.view.addSubview(view)
+    }
+}
+
+
+//}

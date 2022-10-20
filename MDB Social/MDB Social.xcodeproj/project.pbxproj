@@ -20,8 +20,8 @@
 		1ADC586527124F760067693B /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 1ADC586427124F760067693B /* FirebaseStorage */; };
 		1ADC5868271250090067693B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADC5867271250090067693B /* User.swift */; };
 		1ADC586A271250500067693B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADC58692712504F0067693B /* Event.swift */; };
-		1ADC586C271250B50067693B /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADC586B271250B50067693B /* AuthManager.swift */; };
-		1ADC586E271253E90067693B /* DatabaseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADC586D271253E90067693B /* DatabaseRequest.swift */; };
+		1ADC586C271250B50067693B /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADC586B271250B50067693B /* Authentication.swift */; };
+		1ADC586E271253E90067693B /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADC586D271253E90067693B /* Database.swift */; };
 		1ADC5871271254EC0067693B /* NotificationBannerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1ADC5870271254EC0067693B /* NotificationBannerSwift */; };
 		1ADC5878271255460067693B /* HorizontalActionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADC5874271255460067693B /* HorizontalActionLabel.swift */; };
 		1ADC5879271255460067693B /* SigninVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADC5875271255460067693B /* SigninVC.swift */; };
@@ -46,8 +46,8 @@
 		1ADC585A27124B200067693B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1ADC5867271250090067693B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1ADC58692712504F0067693B /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		1ADC586B271250B50067693B /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
-		1ADC586D271253E90067693B /* DatabaseRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseRequest.swift; sourceTree = "<group>"; };
+		1ADC586B271250B50067693B /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
+		1ADC586D271253E90067693B /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		1ADC5874271255460067693B /* HorizontalActionLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalActionLabel.swift; sourceTree = "<group>"; };
 		1ADC5875271255460067693B /* SigninVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SigninVC.swift; sourceTree = "<group>"; };
 		1ADC5876271255460067693B /* LoadingButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
@@ -131,8 +131,8 @@
 			children = (
 				1ADC5867271250090067693B /* User.swift */,
 				1ADC58692712504F0067693B /* Event.swift */,
-				1ADC586B271250B50067693B /* AuthManager.swift */,
-				1ADC586D271253E90067693B /* DatabaseRequest.swift */,
+				1ADC586B271250B50067693B /* Authentication.swift */,
+				1ADC586D271253E90067693B /* Database.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -252,12 +252,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1ADC5868271250090067693B /* User.swift in Sources */,
-				1ADC586C271250B50067693B /* AuthManager.swift in Sources */,
+				1ADC586C271250B50067693B /* Authentication.swift in Sources */,
 				1ADC587A271255460067693B /* LoadingButton.swift in Sources */,
 				1ADC5882271255DC0067693B /* UIViewController+HideKeyboard.swift in Sources */,
 				1ADC5880271255DC0067693B /* UIColor+ColorScheme.swift in Sources */,
 				1AFB4D88271C2327006621E9 /* FeedNavigationVC.swift in Sources */,
-				1ADC586E271253E90067693B /* DatabaseRequest.swift in Sources */,
+				1ADC586E271253E90067693B /* Database.swift in Sources */,
 				1ADC5879271255460067693B /* SigninVC.swift in Sources */,
 				1ADC586A271250500067693B /* Event.swift in Sources */,
 				1AFB4D86271C22FD006621E9 /* FeedVC.swift in Sources */,

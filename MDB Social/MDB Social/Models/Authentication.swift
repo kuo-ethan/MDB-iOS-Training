@@ -1,5 +1,5 @@
 //
-//  AuthManager.swift
+//  Authentication.swift
 //  MDB Social
 //
 //  Created by Michael Lin on 10/9/21.
@@ -9,9 +9,9 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
-class AuthManager {
+class Authentication {
     
-    static let shared = AuthManager()
+    static let shared = Authentication()
     
     let auth = Auth.auth()
     

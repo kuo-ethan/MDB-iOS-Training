@@ -10,19 +10,19 @@ import UIKit
 class HorizontalActionLabel: UIStackView {
 
     let label: UILabel = {
-        let lbl = UILabel()
-        lbl.textColor = .secondaryText
-        lbl.font = .systemFont(ofSize: 14, weight: .medium)
+        let label = UILabel()
+        label.textColor = .secondaryText
+        label.font = .systemFont(ofSize: 14, weight: .medium)
         
-        return lbl
+        return label
     }()
     
     let button: UIButton = {
-        let btn = UIButton()
-        btn.setTitleColor(.primary, for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        let button = UIButton()
+        button.setTitleColor(.primary, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
         
-        return btn
+        return button
     }()
     
     init(frame: CGRect = .zero, label: String, buttonTitle: String) {

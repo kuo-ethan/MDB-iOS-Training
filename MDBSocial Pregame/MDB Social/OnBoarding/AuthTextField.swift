@@ -25,14 +25,14 @@ final class AuthTextField: UIView {
     }()
     
     let titleLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.textColor = .secondaryText
-        lbl.numberOfLines = 1
-        lbl.textAlignment = .left
-        lbl.font = .systemFont(ofSize: DEFAULT_FONT_SIZE-2, weight: .semibold)
+        let label = UILabel()
+        label.textColor = .secondaryText
+        label.numberOfLines = 1
+        label.textAlignment = .left
+        label.font = .systemFont(ofSize: DEFAULT_FONT_SIZE-2, weight: .semibold)
         
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     var text: String? {

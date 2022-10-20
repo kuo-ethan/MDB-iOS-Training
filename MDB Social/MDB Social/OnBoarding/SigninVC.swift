@@ -54,7 +54,7 @@ class SigninVC: UIViewController {
         return tf
     }()
     
-    private let signinButton: LoadingButton = {
+    private let signInButton: LoadingButton = {
         let btn = LoadingButton()
         btn.layer.backgroundColor = UIColor.primary.cgColor
         btn.setTitle("Sign In", for: .normal)
@@ -116,17 +116,17 @@ class SigninVC: UIViewController {
                                        constant: 60)
         ])
         
-        view.addSubview(signinButton)
+        view.addSubview(signInButton)
         NSLayoutConstraint.activate([
-            signinButton.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
-            signinButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 30),
-            signinButton.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
-            signinButton.heightAnchor.constraint(equalToConstant: signinButtonHeight)
+            signInButton.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
+            signInButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 30),
+            signInButton.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+            signInButton.heightAnchor.constraint(equalToConstant: signinButtonHeight)
         ])
         
-        signinButton.layer.cornerRadius = signinButtonHeight / 2
+        signInButton.layer.cornerRadius = signinButtonHeight / 2
         
-        signinButton.addTarget(self, action: #selector(didTapSignIn(_:)), for: .touchUpInside)
+        signInButton.addTarget(self, action: #selector(didTapSignIn(_:)), for: .touchUpInside)
         
         view.addSubview(signUpActionLabel)
         NSLayoutConstraint.activate([
@@ -148,12 +148,12 @@ class SigninVC: UIViewController {
             return
         }
         
-        signinButton.showLoading()
-        AuthManager.shared.signIn(withEmail: email, password: password) { [weak self] result in
+        signInButton.showLoading()
+        Authentication.shared.signIn(withEmail: email, password: password) { [weak self] result in
             guard let self = self else { return }
             
             defer {
-                self.signinButton.hideLoading()
+                self.signInButton.hideLoading()
             }
             
             switch result {

@@ -29,7 +29,7 @@ class FeedVC: UIViewController {
     }
     
     @objc func didTapSignOut(_ sender: UIButton) {
-        AuthManager.shared.signOut { [weak self] in
+        Authentication.shared.signOut { [weak self] in
             guard let self = self else { return }
             guard let window = self.view.window else { return }
             

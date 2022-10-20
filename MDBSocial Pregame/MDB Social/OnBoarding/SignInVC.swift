@@ -1,5 +1,5 @@
 //
-//  SigninVC.swift
+//  SignInVC.swift
 //  MDB Social
 //
 //  Created by Michael Lin on 2/25/21.
@@ -8,7 +8,7 @@
 import UIKit
 import NotificationBannerSwift
 
-class SigninVC: UIViewController {
+class SignInVC: UIViewController {
     
     private let stack: UIStackView = {
         let stack = UIStackView()
@@ -21,49 +21,49 @@ class SigninVC: UIViewController {
     }()
     
     private let titleLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Welcome,"
-        lbl.textColor = .primaryText
-        lbl.font = .systemFont(ofSize: 30, weight: .semibold)
+        let label = UILabel()
+        label.text = "Welcome,"
+        label.textColor = .primaryText
+        label.font = .systemFont(ofSize: 30, weight: .semibold)
         
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private let titleSecLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Sign in to continue"
-        lbl.textColor = .secondaryText
-        lbl.font = .systemFont(ofSize: 17, weight: .medium)
+        let label = UILabel()
+        label.text = "Sign in to continue"
+        label.textColor = .secondaryText
+        label.font = .systemFont(ofSize: 17, weight: .medium)
         
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private let emailTextField: AuthTextField = {
-        let tf = AuthTextField(title: "Email:")
+        let textField = AuthTextField(title: "Email:")
         
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
     }()
     
     private let passwordTextField: AuthTextField = {
-        let tf = AuthTextField(title: "Password:")
-        tf.textField.isSecureTextEntry = true
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
+        let textField = AuthTextField(title: "Password:")
+        textField.textField.isSecureTextEntry = true
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
     }()
     
-    private let signinButton: LoadingButton = {
-        let btn = LoadingButton()
-        btn.layer.backgroundColor = UIColor.primary.cgColor
-        btn.setTitle("Sign In", for: .normal)
-        btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        btn.isUserInteractionEnabled = true
+    private let signInButton: LoadingButton = {
+        let button = LoadingButton()
+        button.layer.backgroundColor = UIColor.primary.cgColor
+        button.setTitle("Sign In", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
+        button.isUserInteractionEnabled = true
         
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     private let signUpActionLabel: HorizontalActionLabel = {
@@ -77,7 +77,7 @@ class SigninVC: UIViewController {
     
     private let contentEdgeInset = UIEdgeInsets(top: 120, left: 40, bottom: 30, right: 40)
     
-    private let signinButtonHeight: CGFloat = 44.0
+    private let signInButtonHeight: CGFloat = 44.0
 
     private var bannerQueue = NotificationBannerQueue(maxBannersOnScreenSimultaneously: 1)
 
@@ -115,17 +115,17 @@ class SigninVC: UIViewController {
                                        constant: 60)
         ])
         
-        view.addSubview(signinButton)
+        view.addSubview(signInButton)
         NSLayoutConstraint.activate([
-            signinButton.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
-            signinButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 30),
-            signinButton.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
-            signinButton.heightAnchor.constraint(equalToConstant: signinButtonHeight)
+            signInButton.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
+            signInButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 30),
+            signInButton.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+            signInButton.heightAnchor.constraint(equalToConstant: signInButtonHeight)
         ])
         
-        signinButton.layer.cornerRadius = signinButtonHeight / 2
+        signInButton.layer.cornerRadius = signInButtonHeight / 2
         
-        signinButton.addTarget(self, action: #selector(didTapSignIn(_:)), for: .touchUpInside)
+        signInButton.addTarget(self, action: #selector(didTapSignIn(_:)), for: .touchUpInside)
         
         view.addSubview(signUpActionLabel)
         NSLayoutConstraint.activate([
@@ -146,7 +146,7 @@ class SigninVC: UIViewController {
             return
         }
         
-        /* TODO: Hackshop */
+        /* TODO: Demo */
     }
     
     @objc private func didTapSignUp(_ sender: UIButton) {

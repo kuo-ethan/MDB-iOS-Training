@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
-        if AuthManager.shared.isSignedIn() {
+        if Authentication.shared.isSignedIn() {
             let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
             window?.rootViewController = vc
         } else {

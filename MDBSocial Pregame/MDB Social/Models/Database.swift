@@ -8,19 +8,19 @@
 import Foundation
 import FirebaseFirestore
 
-class DatabaseRequest {
+class Database {
     
-    static let shared = DatabaseRequest()
+    static let shared = Database()
     
     let db = Firestore.firestore()
     
     func setUser(_ user: User, completion: (()->Void)?) {
-        /* TODO: Hackshop */
+        /* TODO: Demo */
     }
     
     func setEvent(_ event: Event, completion: (()->Void)?) {
-        /* TODO: Hackshop */
+        /* TODO: Demo */
     }
     
-    /* TODO: Events getter */
+    /* TODO: Project */
 }

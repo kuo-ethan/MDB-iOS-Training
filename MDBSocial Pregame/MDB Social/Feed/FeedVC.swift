@@ -29,7 +29,7 @@ class FeedVC: UIViewController {
     }
     
     @objc func didTapSignOut(_ sender: UIButton) {
-        AuthManager.shared.signOut {
+        Authentication.shared.signOut {
             guard let window = UIApplication.shared
                     .windows.filter({ $0.isKeyWindow }).first else { return }
             let vc = UIStoryboard(name: "Auth", bundle: nil).instantiateInitialViewController()
