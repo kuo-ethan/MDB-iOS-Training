@@ -7,9 +7,14 @@
 
 import UIKit
 
+// Make navigation controller class
+// Do search bar first
+
 class PokedexVC: UIViewController {
     
     let pokemons = PokemonGenerator.shared.getPokemonArray()
+    
+    // let currPokemons = ... // filter pokemons, then call batchUpdates
     
     var settingsVC: SettingsVC! = nil
     
@@ -26,12 +31,17 @@ class PokedexVC: UIViewController {
         return button
     }()
     
-    let searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.searchBarStyle = .minimal
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        return searchBar
+    let searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        return searchController
     }()
+    
+//    let searchBar: UISearchBar = { // UISearchBarController
+//        let searchBar = UISearchBar()
+//        searchBar.searchBarStyle = .minimal
+//        searchBar.translatesAutoresizingMaskIntoConstraints = false
+//        return searchBar
+//    }()
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -49,6 +59,14 @@ class PokedexVC: UIViewController {
         settingsVC = SettingsVC(collectionView)
         settingsVC.modalPresentationStyle = .fullScreen
         
+        // Setup search controller
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Pokemon"
+        navigationItem.searchController = searchController
+        navigationItem.title = "Pokedex"
+
+        
         // Display settings button
         view.addSubview(settingsButton)
         settingsButton.addAction(UIAction(handler: tapSettingsHandler), for: .touchUpInside)
@@ -59,13 +77,13 @@ class PokedexVC: UIViewController {
         ])
         
         // Display search bar
-        view.addSubview(searchBar)
-        NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            searchBar.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-        
-        searchBar.delegate = self // Connect search bar to search bar delegate
+//        view.addSubview(searchBar)
+//        NSLayoutConstraint.activate([
+//            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+//            searchBar.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+//        ])
+//
+//        searchBar.delegate = self // Connect search bar to search bar delegate
         
         // Display collection view
         view.addSubview(collectionView)
@@ -80,7 +98,7 @@ class PokedexVC: UIViewController {
     }
     
     func tapSettingsHandler(_ action: UIAction) {
-        present(settingsVC, animated: true, completion: nil)
+        navigationController?.pushViewController(settingsVC, animated: true)
     }
 }
 
@@ -122,9 +140,22 @@ extension PokedexVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension PokedexVC: UISearchBarDelegate {
-    // Add functionality for search bar
+extension PokedexVC: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else {return}
+        print(text)
+    }
 }
+
+//extension PokedexVC: UISearchBarDelegate {
+//    // Add functionality for search bar
+//    // textDidChange function
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) { // any time they edit the search bar
+//        // searchText is what's in the search bar
+//        // filter or contains are built in to swift
+//        // if statement if curent pokemons is empty, show all of them?
+//    }
+//}
 
 
 
@@ -137,16 +168,17 @@ class PokemonCell: UICollectionViewCell {
         let image = UIImageView()
         image.tintColor = .white
         image.contentMode = .scaleAspectFit
+        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
     private let nameIDLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 8, weight: .medium)
-        label.frame = CGRect(x: 0, y: 80, width: 70, height: 10)
+        label.font = .systemFont(ofSize: 10, weight: .medium)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -180,6 +212,15 @@ class PokemonCell: UICollectionViewCell {
         imageView.frame = contentView.bounds
         contentView.addSubview(imageView)
         contentView.addSubview(nameIDLabel)
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            nameIDLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -10),
+            nameIDLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            nameIDLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+        ])
     }
     
     required init?(coder: NSCoder) {

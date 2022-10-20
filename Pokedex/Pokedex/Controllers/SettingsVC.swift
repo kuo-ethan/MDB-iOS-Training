@@ -45,20 +45,6 @@ class SettingsVC: UIViewController {
         return label
     }()
     
-    // Return button
-    let returnButton: UIButton = {
-        let button = UIButton()
-        var config = UIButton.Configuration.tinted()
-        config.title = "Return"
-        config.baseBackgroundColor = .systemGray
-        config.baseForegroundColor = .systemGray
-        config.imagePadding = 10
-        config.buttonSize = .small
-        button.configuration = config
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
     init(_ collectionView: UICollectionView) {
         super.init(nibName: nil, bundle: nil)
         self.collectionView = collectionView
@@ -73,20 +59,11 @@ class SettingsVC: UIViewController {
         
         view.backgroundColor = .white
         
-        // Display return button
-        view.addSubview(returnButton)
-        returnButton.addAction(UIAction(handler: tapReturnHandler), for: .touchUpInside)
-        NSLayoutConstraint.activate([
-            returnButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            returnButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            returnButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
         
         // Display "Settings" header label
         view.addSubview(settingsLabel)
         NSLayoutConstraint.activate([
-            settingsLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            settingsLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             settingsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
@@ -112,9 +89,6 @@ class SettingsVC: UIViewController {
         ])
     }
     
-    func tapReturnHandler(_action: UIAction) {
-        dismiss(animated: true)
-    }
     
     func layoutSwitchHandler(_action: UIAction) {
         collectionView.performBatchUpdates(nil, completion: nil)
