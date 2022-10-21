@@ -55,6 +55,18 @@ class PokedexVC: UIViewController {
         collectionView.delegate = self // Connect collection view to layout delegate
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        reloadPokemon()
+        collectionView.performBatchUpdates(nil, completion: nil)
+    }
+    
+    // Sets pokemons according to filtered types.
+    func reloadPokemon() {
+        pokemons = PokedexData.shared.allPokemons.filter({ pokemon in
+            Set(pokemon.types).isSubset(of: PokedexData.shared.includedTypes)
+        })
+    }
+    
     @objc func tapSettingsHandler(_ sender: Any) {
         navigationController?.pushViewController(settingsVC, animated: true)
     }
@@ -99,10 +111,8 @@ extension PokedexVC: UICollectionViewDelegateFlowLayout {
 extension PokedexVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else {return}
-        
-        if text.isEmpty {
-            pokemons = PokedexData.shared.allPokemons
-        } else {
+        reloadPokemon()
+        if !text.isEmpty {
             var searchedPokemons: [Pokemon] = []
             for pokemon in pokemons {
                 if pokemon.name.lowercased().contains(text.lowercased()) {

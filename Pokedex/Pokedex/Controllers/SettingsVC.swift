@@ -55,9 +55,6 @@ class SettingsVC: UIViewController {
     init(_ collectionView: UICollectionView) {
         super.init(nibName: nil, bundle: nil)
         self.collectionView = collectionView
-        
-        // let typeList: [String] = PokeType.allCases.map({ "\($0)" }).joined(separator: "|").components(separatedBy: "|")
-        
     }
     
     required init?(coder: NSCoder) {
@@ -100,13 +97,14 @@ class SettingsVC: UIViewController {
         
         // Display filter table
         view.addSubview(filterTable)
+        filterTable.allowsSelection = false
         filterTable.frame = view.bounds.inset(by: UIEdgeInsets(top: 250, left: 30, bottom: 0, right: 30))
         filterTable.dataSource = self
         filterTable.delegate = self
     }
     
     
-    func layoutSwitchHandler(_action: UIAction) {
+    func layoutSwitchHandler(_ action: UIAction) {
         PokedexData.shared.gridLayoutOn = gridSwitch.isOn
         collectionView.performBatchUpdates(nil, completion: nil)
     }
@@ -121,12 +119,14 @@ extension SettingsVC: UITableViewDataSource, UITableViewDelegate {
         let type = PokeType.allCases[indexPath.item]
         let row = tableView.dequeueReusableCell(withIdentifier: FilterElement.reuseIdentifier, for: indexPath) as! FilterElement
         row.type = type
+        row.filterSwitch.isOn = PokedexData.shared.typeFilterTracker[type]!
         return row
     }
     
     
 }
 
+// A custom view object that is a row in the filter table.
 class FilterElement: UITableViewCell {
     
     static let reuseIdentifier = "FilterElement"
@@ -136,26 +136,26 @@ class FilterElement: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Not set yet"
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.font = .systemFont(ofSize: 12, weight: .light)
         return label
     }()
     
     let filterSwitch: UISwitch = {
         let toggle = UISwitch()
         toggle.translatesAutoresizingMaskIntoConstraints = false
-        toggle.isOn = false
+        toggle.isOn = true
         return toggle
     }()
     
     var type: PokeType? {
         didSet {
             typeLabel.text = type?.rawValue
-            filterSwitch.isOn = false
         }
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        filterSwitch.addAction(UIAction(handler: filterSwitchHandler), for: .valueChanged)
         contentView.addSubview(typeLabel)
         contentView.addSubview(filterSwitch)
         NSLayoutConstraint.activate([
@@ -168,5 +168,15 @@ class FilterElement: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func filterSwitchHandler(_ action: UIAction) {
+        if filterSwitch.isOn {
+            PokedexData.shared.includedTypes.insert(type!)
+            PokedexData.shared.typeFilterTracker[type!] = true
+        } else {
+            PokedexData.shared.includedTypes.remove(type!)
+            PokedexData.shared.typeFilterTracker[type!] = false
+        }
     }
 }
