@@ -14,34 +14,12 @@ class PokedexVC: UIViewController {
     
     let pokemons = PokemonGenerator.shared.getPokemonArray()
     
-    // let currPokemons = ... // filter pokemons, then call batchUpdates
-    
     var settingsVC: SettingsVC! = nil
-    
-    let settingsButton: UIButton = {
-        let button = UIButton()
-        var config = UIButton.Configuration.tinted()
-        config.title = "Settings"
-        config.baseBackgroundColor = .systemGray
-        config.baseForegroundColor = .systemGray
-        config.imagePadding = 10
-        config.buttonSize = .small
-        button.configuration = config
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
     
     let searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         return searchController
     }()
-    
-//    let searchBar: UISearchBar = { // UISearchBarController
-//        let searchBar = UISearchBar()
-//        searchBar.searchBarStyle = .minimal
-//        searchBar.translatesAutoresizingMaskIntoConstraints = false
-//        return searchBar
-//    }()
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -64,46 +42,25 @@ class PokedexVC: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Pokemon"
         navigationItem.searchController = searchController
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
         navigationItem.title = "Pokedex"
+        navigationItem.rightBarButtonItem = .init(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(tapSettingsHandler))
 
-        
-        // Display settings button
-        view.addSubview(settingsButton)
-        settingsButton.addAction(UIAction(handler: tapSettingsHandler), for: .touchUpInside)
-        NSLayoutConstraint.activate([
-            settingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            settingsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            settingsButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
-        // Display search bar
-//        view.addSubview(searchBar)
-//        NSLayoutConstraint.activate([
-//            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-//            searchBar.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-//        ])
-//
-//        searchBar.delegate = self // Connect search bar to search bar delegate
-        
         // Display collection view
         view.addSubview(collectionView)
-        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 150, left: 30, bottom: 0, right: 30))
+        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 100, left: 30, bottom: 0, right: 30))
         collectionView.backgroundColor = .clear
-        
         collectionView.allowsSelection = true
         collectionView.allowsMultipleSelection = false
-        
         collectionView.dataSource = self // Connect collection view to data source
         collectionView.delegate = self // Connect collection view to layout delegate
     }
     
-    func tapSettingsHandler(_ action: UIAction) {
+    @objc func tapSettingsHandler(_ sender: Any) {
         navigationController?.pushViewController(settingsVC, animated: true)
     }
 }
 
-// The PokedexVC is also a data source for updating its collection view.
+// The PokedexVC is also a data source for its own collection view.
 extension PokedexVC: UICollectionViewDataSource {
     
     // Set the number of cells in the collection view.
@@ -124,15 +81,12 @@ extension PokedexVC: UICollectionViewDataSource {
 extension PokedexVC: UICollectionViewDelegateFlowLayout {
     // Get the size of a cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if settingsVC.gridSwitch.isOn {
+        if PokedexData.shared.gridLayoutOn {
             return CGSize(width: 80, height: 100) // 3 pokemon per row
         } else {
             return CGSize(width: 160, height: 200) // 1 pokemon per row
         }
     }
-    
-    // Is this one needed?
-    // func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {}
     
     // Print which pokemon was selected.
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -141,24 +95,13 @@ extension PokedexVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// PokedexVC is the delegate for search bar functions.
 extension PokedexVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else {return}
         print(text)
     }
 }
-
-//extension PokedexVC: UISearchBarDelegate {
-//    // Add functionality for search bar
-//    // textDidChange function
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) { // any time they edit the search bar
-//        // searchText is what's in the search bar
-//        // filter or contains are built in to swift
-//        // if statement if curent pokemons is empty, show all of them?
-//    }
-//}
-
-
 
 // A cell in the collection view grid for a pokemon
 class PokemonCell: UICollectionViewCell {
@@ -183,7 +126,6 @@ class PokemonCell: UICollectionViewCell {
         return label
     }()
     
-    // The Pokemon associated with a cell. This is a computed property.
     // When a pokemon is set to this cell, it's image and label will be updated.
     var symbol: Pokemon? {
         didSet {
@@ -192,7 +134,6 @@ class PokemonCell: UICollectionViewCell {
                 DispatchQueue.main.async {
                     self.imageView.image = image
                 }
-                
             }
             
             // When a Pokemon is set, attempt to get the image data using global threads.
