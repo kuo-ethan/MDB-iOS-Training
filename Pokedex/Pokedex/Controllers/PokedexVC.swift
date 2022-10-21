@@ -12,7 +12,7 @@ import UIKit
 
 class PokedexVC: UIViewController {
     
-    let pokemons = PokemonGenerator.shared.getPokemonArray()
+    var pokemons = PokedexData.shared.allPokemons
     
     var settingsVC: SettingsVC! = nil
     
@@ -99,7 +99,19 @@ extension PokedexVC: UICollectionViewDelegateFlowLayout {
 extension PokedexVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else {return}
-        print(text)
+        
+        if text.isEmpty {
+            pokemons = PokedexData.shared.allPokemons
+        } else {
+            var searchedPokemons: [Pokemon] = []
+            for pokemon in pokemons {
+                if pokemon.name.lowercased().contains(text.lowercased()) {
+                    searchedPokemons.append(pokemon)
+                }
+            }
+            pokemons = searchedPokemons
+        }
+        collectionView.performBatchUpdates(nil, completion: nil)
     }
 }
 
