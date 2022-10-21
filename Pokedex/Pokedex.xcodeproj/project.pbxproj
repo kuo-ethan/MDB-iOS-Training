@@ -17,6 +17,7 @@
 		1ADFEA1125DF992D003D8D69 /* pokemons.json in Resources */ = {isa = PBXBuildFile; fileRef = 1ADFEA1025DF992D003D8D69 /* pokemons.json */; };
 		1ADFEA1425DF9999003D8D69 /* PokemonGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADFEA1325DF9999003D8D69 /* PokemonGenerator.swift */; };
 		CB305115290246DD0054E37D /* PokedexData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB305114290246DD0054E37D /* PokedexData.swift */; };
+		CB30511A29028CBB0054E37D /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB30511929028CBB0054E37D /* ProfileVC.swift */; };
 		CB93882128FD2ADD005551DE /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB93882028FD2ADD005551DE /* SettingsVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		1ADFEA1025DF992D003D8D69 /* pokemons.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pokemons.json; sourceTree = "<group>"; };
 		1ADFEA1325DF9999003D8D69 /* PokemonGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonGenerator.swift; sourceTree = "<group>"; };
 		CB305114290246DD0054E37D /* PokedexData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexData.swift; sourceTree = "<group>"; };
+		CB30511929028CBB0054E37D /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		CB93882028FD2ADD005551DE /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -52,6 +54,7 @@
 			children = (
 				1ADFE9F925DF97D6003D8D69 /* PokedexVC.swift */,
 				CB93882028FD2ADD005551DE /* SettingsVC.swift */,
+				CB30511929028CBB0054E37D /* ProfileVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				1ADFE9FA25DF97D6003D8D69 /* PokedexVC.swift in Sources */,
 				1ADFEA0E25DF98BC003D8D69 /* Pokemon.swift in Sources */,
 				1ADFE9F625DF97D6003D8D69 /* AppDelegate.swift in Sources */,
+				CB30511A29028CBB0054E37D /* ProfileVC.swift in Sources */,
 				1ADFE9F825DF97D6003D8D69 /* SceneDelegate.swift in Sources */,
 				CB305115290246DD0054E37D /* PokedexData.swift in Sources */,
 				CB93882128FD2ADD005551DE /* SettingsVC.swift in Sources */,

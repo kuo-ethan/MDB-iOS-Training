@@ -100,10 +100,11 @@ extension PokedexVC: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    // Print which pokemon was selected.
+    // Open profile VC for the selected pokemon.
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let symbol = pokemons[indexPath.item]
         print("Selected \(symbol.name)")
+        navigationController?.pushViewController(ProfileVC(pokemon: symbol, nil, nil), animated: true)
     }
 }
 
