@@ -14,7 +14,7 @@ class Database {
     
     let db = Firestore.firestore()
     
-    /* Update the data for a user in the database. */
+    /* Create or update the data for a user in the database. */
     func setUser(_ user: User, completion: (()->Void)?) {
         guard let uid = user.uid else { return }
         do {
@@ -24,7 +24,7 @@ class Database {
         catch { }
     }
     
-    /* Updates the data for an event in the database. */
+    /* Create or update the data for an event in the database. */
     func setEvent(_ event: Event, completion: (()->Void)?) {
         guard let id = event.id else { return }
         

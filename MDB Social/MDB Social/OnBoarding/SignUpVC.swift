@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import NotificationBannerSwift
 
-class SignUpVC: UIViewController {
+class SignupVC: UIViewController {
     
     private let stack: UIStackView = {
         let stack = UIStackView()
@@ -31,7 +31,7 @@ class SignUpVC: UIViewController {
     
     private let titleSecLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "Post and RSVP to socials today!"
+        lbl.text = "Post your socials today!"
         lbl.textColor = .secondaryText
         lbl.font = .systemFont(ofSize: 17, weight: .medium)
         
@@ -71,7 +71,7 @@ class SignUpVC: UIViewController {
         return tf
     }()
     
-    private let signUpButton: LoadingButton = {
+    private let signupButton: LoadingButton = {
         let btn = LoadingButton()
         btn.layer.backgroundColor = UIColor.primary.cgColor
         btn.setTitle("Sign Up", for: .normal)
@@ -84,7 +84,7 @@ class SignUpVC: UIViewController {
     
     private let contentEdgeInset = UIEdgeInsets(top: 120, left: 40, bottom: 30, right: 40)
     
-    private let signUpButtonHeight: CGFloat = 44.0
+    private let signupButtonHeight: CGFloat = 44.0
 
     private var bannerQueue = NotificationBannerQueue(maxBannersOnScreenSimultaneously: 1)
     
@@ -126,20 +126,96 @@ class SignUpVC: UIViewController {
                                        constant: 40)
         ])
         
-        view.addSubview(signUpButton)
+        view.addSubview(signupButton)
         NSLayoutConstraint.activate([
-            signUpButton.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
-            signUpButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 30),
-            signUpButton.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
-            signUpButton.heightAnchor.constraint(equalToConstant: signUpButtonHeight)
+            signupButton.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
+            signupButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 30),
+            signupButton.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+            signupButton.heightAnchor.constraint(equalToConstant: signupButtonHeight)
         ])
         
-        signUpButton.layer.cornerRadius = signUpButtonHeight / 2
+        signupButton.layer.cornerRadius = signupButtonHeight / 2
         
-        signUpButton.addTarget(self, action: #selector(didTapSignUp(_:)), for: .touchUpInside)
+        signupButton.addTarget(self, action: #selector(didTapSignUp(_:)), for: .touchUpInside)
     }
     
     @objc private func didTapSignUp(_ sender: UIButton) {
+        // Validate text fields are not empty
+        guard let fullName = fullNameTextField.text, fullName != "" else {
+            showErrorBanner(withTitle: "Missing name", subtitle: "Please enter your full name")
+            return
+        }
         
+        guard let email = emailTextField.text, email != "" else {
+            showErrorBanner(withTitle: "Missing email", subtitle: "Please enter your email address")
+            return
+        }
+        
+        guard let userName = userNameTextField.text, userName != "" else {
+            showErrorBanner(withTitle: "Missing username", subtitle: "Please enter your username")
+            return
+        }
+        
+        guard let password = passwordTextField.text, password != "" else {
+            showErrorBanner(withTitle: "Missing password", subtitle: "Please enter your password")
+            return
+        }
+        
+        guard let confirmPassword = confirmPasswordTextField.text, confirmPassword != "" else {
+            showErrorBanner(withTitle: "Missing password confirmation", subtitle: "Please confirm your password")
+            return
+        }
+        
+        signupButton.showLoading()
+        
+        // Pass in a completion closure that will either open FeedVC or show and error banner
+        Authentication.shared.signUp(withEmail: email, password: password, fullName: fullName, userName: userName) { [weak self] result in
+            guard let self = self else { return }
+            
+            defer {
+                self.signupButton.hideLoading()
+            }
+            
+            switch result {
+            case .success:
+                guard let window = self.view.window else { return }
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+                window.rootViewController = vc
+                let options: UIView.AnimationOptions = .transitionCrossDissolve
+                let duration: TimeInterval = 0.3
+                UIView.transition(with: window, duration: duration, options: options, animations: {}, completion: nil)
+                
+            case .failure(let error):
+                switch error {
+                case .emailAlreadyInUse:
+                    self.showErrorBanner(withTitle: "Email already in use", subtitle: "Please check your email address")
+                case .weakPassword:
+                    self.showErrorBanner(withTitle: "Weak password", subtitle: "Please choose a different password")
+                default:
+                    self.showErrorBanner(withTitle: "Internal error", subtitle: "")
+                }
+            }
+        }
+    }
+    
+    // Copied from SignInVC
+    private func showErrorBanner(withTitle title: String, subtitle: String? = nil) {
+        showBanner(withStyle: .warning, title: title, subtitle: subtitle)
+    }
+    
+    private func showBanner(withStyle style: BannerStyle, title: String, subtitle: String?) {
+        guard bannerQueue.numberOfBanners == 0 else { return }
+        let banner = FloatingNotificationBanner(title: title, subtitle: subtitle,
+                                                titleFont: .systemFont(ofSize: 17, weight: .medium),
+                                                subtitleFont: .systemFont(ofSize: 14, weight: .regular),
+                                                style: style)
+        
+        banner.show(bannerPosition: .top,
+                    queue: bannerQueue,
+                    edgeInsets: UIEdgeInsets(top: 15, left: 15, bottom: 0, right: 15),
+                    cornerRadius: 10,
+                    shadowColor: .primaryText,
+                    shadowOpacity: 0.3,
+                    shadowBlurRadius: 10)
     }
 }

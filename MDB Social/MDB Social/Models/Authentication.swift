@@ -15,7 +15,8 @@ class Authentication {
     
     let auth = Auth.auth()
     
-    enum SignInErrors: Error {
+    enum AuthenticationError: Error {
+        // For sign in
         case wrongPassword
         case userNotFound
         case invalidEmail
@@ -23,6 +24,11 @@ class Authentication {
         case errorFetchingUserDoc
         case errorDecodingUserDoc
         case unspecified
+        // For sign up
+        case emailAlreadyInUse
+        case weakPassword
+        case passwordConfirmationFailed
+        case missingInputField
     }
     
     let db = Firestore.firestore()
@@ -38,10 +44,10 @@ class Authentication {
         linkUser(withuid: user.uid, completion: nil)
     }
     
-    /*  */
     func signIn(withEmail email: String, password: String,
-                completion: ((Result<User, SignInErrors>)->Void)?) {
+                completion: ((Result<User, AuthenticationError>)->Void)?) {
         
+        // MARK: potential reference cycle here because ...
         auth.signIn(withEmail: email, password: password) { [weak self] authResult, error in
             if let error = error {
                 let nsError = error as NSError
@@ -69,6 +75,31 @@ class Authentication {
     }
     
     /* TODO: Firebase sign up handler, add user to firestore */
+    func signUp(withEmail email: String, password: String, fullName: String, userName: String, completion: ((Result<User, AuthenticationError>)->Void)?) {
+        // Register a user using FirebaseAuth (not in database yet)
+        auth.createUser(withEmail: email, password: password) { [weak self] authResult, error in
+            if let error = error {
+                let nsError = error as NSError
+                let errorCode = FirebaseAuth.AuthErrorCode(rawValue: nsError.code)
+                
+                switch errorCode {
+                case .emailAlreadyInUse:
+                    completion?(.failure(.emailAlreadyInUse))
+                case .weakPassword:
+                    completion?(.failure(.weakPassword))
+                default:
+                    completion?(.failure(.unspecified))
+                }
+                return
+            }
+            guard let authResult = authResult else {
+                completion?(.failure(.internalError))
+                return
+            }
+            // Now actually put the new user in the database
+            self?.linkNewUser(withuid: authResult.user.uid, email: email, userName: userName, fullName: fullName, completion: completion)
+        }
+    }
     
     func isSignedIn() -> Bool {
         return auth.currentUser != nil
@@ -82,8 +113,9 @@ class Authentication {
         } catch { }
     }
     
+    /* Given a UID, adds a listener to the user's document and updates current user */
     private func linkUser(withuid uid: String,
-                          completion: ((Result<User, SignInErrors>)->Void)?) {
+                          completion: ((Result<User, AuthenticationError>)->Void)?) {
         
         // calls that closure when that document is updated
         userListener = db.collection("users").document(uid).addSnapshotListener { [weak self] docSnapshot, error in
@@ -99,6 +131,15 @@ class Authentication {
             self?.currentUser = user
             completion?(.success(user))
         }
+    }
+    
+    /* Create a new document for a new user, then link the user as above */
+    private func linkNewUser(withuid uid: String, email: String, userName: String, fullName: String,
+                          completion: ((Result<User, AuthenticationError>)->Void)?) {
+        // First, create the document for the new user
+        db.collection("users").document(uid).setData(["email": email, "fullname": fullName, "savedEvents": [], "username": userName])
+        // Then, link the user to the current execution
+        linkUser(withuid: uid, completion: completion)
     }
     
     private func unlinkCurrentUser() {

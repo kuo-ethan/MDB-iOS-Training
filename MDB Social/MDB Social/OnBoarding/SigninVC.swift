@@ -56,7 +56,7 @@ class SigninVC: UIViewController {
         return tf
     }()
     
-    private let signInButton: LoadingButton = {
+    private let signinButton: LoadingButton = {
         let btn = LoadingButton()
         btn.layer.backgroundColor = UIColor.primary.cgColor
         btn.setTitle("Sign In", for: .normal)
@@ -118,17 +118,17 @@ class SigninVC: UIViewController {
                                        constant: 60)
         ])
         
-        view.addSubview(signInButton)
+        view.addSubview(signinButton)
         NSLayoutConstraint.activate([
-            signInButton.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
-            signInButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 30),
-            signInButton.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
-            signInButton.heightAnchor.constraint(equalToConstant: signinButtonHeight)
+            signinButton.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
+            signinButton.topAnchor.constraint(equalTo: stack.bottomAnchor, constant: 30),
+            signinButton.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+            signinButton.heightAnchor.constraint(equalToConstant: signinButtonHeight)
         ])
         
-        signInButton.layer.cornerRadius = signinButtonHeight / 2
+        signinButton.layer.cornerRadius = signinButtonHeight / 2
         
-        signInButton.addTarget(self, action: #selector(didTapSignIn(_:)), for: .touchUpInside)
+        signinButton.addTarget(self, action: #selector(didTapSignIn(_:)), for: .touchUpInside)
         
         view.addSubview(signUpActionLabel)
         NSLayoutConstraint.activate([
@@ -150,12 +150,12 @@ class SigninVC: UIViewController {
             return
         }
         
-        signInButton.showLoading()
+        signinButton.showLoading()
         Authentication.shared.signIn(withEmail: email, password: password) { [weak self] result in
             guard let self = self else { return }
             
             defer {
-                self.signInButton.hideLoading()
+                self.signinButton.hideLoading()
             }
             
             switch result {
@@ -183,7 +183,7 @@ class SigninVC: UIViewController {
     }
     
     @objc private func didTapSignUp(_ sender: UIButton) {
-        let vc = SignUpVC()
+        let vc = SignupVC()
         vc.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(vc, animated: true)
     }
