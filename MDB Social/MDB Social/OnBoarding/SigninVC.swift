@@ -8,6 +8,8 @@
 import UIKit
 import NotificationBannerSwift
 
+/* The starting sign in page. */
+
 class SigninVC: UIViewController {
     
     private let stack: UIStackView = {
@@ -181,7 +183,9 @@ class SigninVC: UIViewController {
     }
     
     @objc private func didTapSignUp(_ sender: UIButton) {
-        
+        let vc = SignUpVC()
+        vc.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func showErrorBanner(withTitle title: String, subtitle: String? = nil) {

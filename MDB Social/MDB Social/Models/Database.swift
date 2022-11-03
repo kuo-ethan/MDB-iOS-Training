@@ -14,6 +14,7 @@ class Database {
     
     let db = Firestore.firestore()
     
+    /* Update the data for a user in the database. */
     func setUser(_ user: User, completion: (()->Void)?) {
         guard let uid = user.uid else { return }
         do {
@@ -23,6 +24,7 @@ class Database {
         catch { }
     }
     
+    /* Updates the data for an event in the database. */
     func setEvent(_ event: Event, completion: (()->Void)?) {
         guard let id = event.id else { return }
         
@@ -34,4 +36,10 @@ class Database {
     
     /* TODO: Events getter */
     // For example, see Authentication.linkUser(withuid:completion:)
+    // Make specialized getEvents like getAllEvents(...) or getEventsMadeByUser(...)
+    
+    /* Retrieves the data */
+    func getUserEvents() {
+        
+    }
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 
+/* A label with an embedded button inside the text. */
 class HorizontalActionLabel: UIStackView {
 
     let label: UILabel = {

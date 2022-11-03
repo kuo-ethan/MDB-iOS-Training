@@ -7,6 +7,7 @@
 
 import UIKit
 
+/* A button that will show activity indicator when loading. */
 class LoadingButton: UIButton {
     
     struct ButtonState {

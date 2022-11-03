@@ -9,6 +9,7 @@ import UIKit
 
 fileprivate let DEFAULT_FONT_SIZE: CGFloat = 15.0
 
+/* A textfield with a small label above it. */
 final class AuthTextField: UIView {
 
     let textField: UITextField = {

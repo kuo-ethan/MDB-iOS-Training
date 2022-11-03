@@ -29,6 +29,7 @@ class Authentication {
     
     var currentUser: User?
     
+    // A reference to a listener attached to some document.
     private var userListener: ListenerRegistration?
     
     init() {
@@ -37,6 +38,7 @@ class Authentication {
         linkUser(withuid: user.uid, completion: nil)
     }
     
+    /*  */
     func signIn(withEmail email: String, password: String,
                 completion: ((Result<User, SignInErrors>)->Void)?) {
         
@@ -61,7 +63,7 @@ class Authentication {
                 completion?(.failure(.internalError))
                 return
             }
-            
+            // Sign in successful, link the user to the current execution.
             self?.linkUser(withuid: authResult.user.uid, completion: completion)
         }
     }
@@ -83,6 +85,7 @@ class Authentication {
     private func linkUser(withuid uid: String,
                           completion: ((Result<User, SignInErrors>)->Void)?) {
         
+        // calls that closure when that document is updated
         userListener = db.collection("users").document(uid).addSnapshotListener { [weak self] docSnapshot, error in
             guard let document = docSnapshot else {
                 completion?(.failure(.errorFetchingUserDoc))
