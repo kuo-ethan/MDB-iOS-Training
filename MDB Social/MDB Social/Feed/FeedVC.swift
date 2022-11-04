@@ -9,7 +9,7 @@ import UIKit
 
 class FeedVC: UIViewController {
     
-    let events: [Event] = []
+    var events: [Event] = []
     
 //    private let signOutButton: UIButton = {
 //        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -20,12 +20,6 @@ class FeedVC: UIViewController {
 //        btn.tintColor = .white
 //        btn.layer.cornerRadius = 50
 //
-//        return btn
-//    }()
-//    let logOutButton: UIButton = {
-//        let btn = UIButton()
-//        btn.setTitle("Sign out", for: .normal)
-//        btn.translatesAutoresizingMaskIntoConstraints = false
 //        return btn
 //    }()
     
@@ -39,12 +33,9 @@ class FeedVC: UIViewController {
     }()
     
     override func viewDidLoad() {
-//        view.addSubview(signOutButton)
-//
-//        signOutButton.center = view.center
-//        signOutButton.addTarget(self, action: #selector(didTapSignOut(_:)), for: .touchUpInside)
-        
         super.viewDidLoad()
+        
+        Database.shared.getAllEvents(vc: self)
         
         navigationItem.title = "MDB Socials"
         navigationItem.rightBarButtonItem = .init(title: "Sign Out", style: .plain, target: self, action: #selector(didTapSignOut))
@@ -56,9 +47,13 @@ class FeedVC: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.allowsSelection = true
         collectionView.allowsMultipleSelection = false
-        collectionView.dataSource = self // Connect collection view to data source
-        collectionView.delegate = self // Connect collection view to layout delegate
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        collectionView.performBatchUpdates(nil, completion: nil)
     }
     
     @objc func didTapSignOut(_ sender: UIButton) {
@@ -78,6 +73,7 @@ class FeedVC: UIViewController {
 extension FeedVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("called collection view count")
         return events.count
     }
     
@@ -92,7 +88,7 @@ extension FeedVC: UICollectionViewDataSource {
 extension FeedVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 80, height: 100)
+        return CGSize(width: 300, height: 350)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -160,9 +156,10 @@ class EventCell: UICollectionViewCell {
                 completion(UIImage(data: data)!)
             }
             
-            nameDateLabel.text = "\(String(describing: symbol?.name)), \(String(describing: symbol?.startDate))"
-            creatorLabel.text = "Posted by \(String(describing: symbol?.creator))"
-            rsvpLabel.text = "Number of RSVPs: \(String(describing: symbol?.rsvpUsers.count))"
+            guard let event = symbol else { return }
+            nameDateLabel.text = "\(event.name)), \(event.startDate))"
+            creatorLabel.text = "Posted by \(event.creator)"
+            rsvpLabel.text = "Number of RSVPs: \(event.rsvpUsers.count)"
         }
     }
     
@@ -174,16 +171,19 @@ class EventCell: UICollectionViewCell {
         contentView.addSubview(creatorLabel)
         contentView.addSubview(rsvpLabel)
         NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
-            imageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            nameDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -10),
-            nameDateLabel.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-            creatorLabel.topAnchor.constraint(equalTo: nameDateLabel.bottomAnchor, constant: -10),
-            creatorLabel.centerXAnchor.constraint(equalTo: nameDateLabel.centerXAnchor),
-            rsvpLabel.topAnchor.constraint(equalTo: creatorLabel.bottomAnchor, constant: -10),
-            rsvpLabel.centerXAnchor.constraint(equalTo: creatorLabel.centerXAnchor)
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: contentView.centerYAnchor),
+            nameDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
+            nameDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            nameDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            creatorLabel.topAnchor.constraint(equalTo: nameDateLabel.bottomAnchor, constant: 10),
+            creatorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            creatorLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            rsvpLabel.topAnchor.constraint(equalTo: creatorLabel.bottomAnchor, constant: 10),
+            rsvpLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            rsvpLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
     }
     

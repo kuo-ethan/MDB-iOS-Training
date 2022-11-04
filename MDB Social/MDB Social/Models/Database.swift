@@ -36,10 +36,23 @@ class Database {
     
     /* TODO: Events getter */
     // For example, see Authentication.linkUser(withuid:completion:)
-    // Make specialized getEvents like getAllEvents(...) or getEventsMadeByUser(...)
     
-    /* Retrieves the data */
-    func getUserEvents() {
-        
+    /* Retrieves all events ever created from firestore database. Then displays them in FeedVC. */
+    func getAllEvents(vc: FeedVC) {
+        // Read all events from database
+        var events: [Event] = []
+        db.collection("events").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting events: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    // Cast document into an Event instance
+                    guard let event = try? document.data(as: Event.self) else { return }
+                    events.append(event)
+                }
+                vc.events = events
+                vc.collectionView.performBatchUpdates(nil, completion: nil)
+            }
+        }
     }
 }
