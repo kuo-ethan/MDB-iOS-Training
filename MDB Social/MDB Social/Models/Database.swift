@@ -55,4 +55,18 @@ class Database {
             }
         }
     }
+    
+    /* Sets the username label of the EventCell object for the given UserID. */
+    func setUserNameLabel(id: UserID, cell: EventCell) {
+        let docRef = db.collection("users").document(id)
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                cell.creatorLabel.text = data?["fullname"] as? String ?? ""
+                cell.creatorLabel.text = "Posted by: " + cell.creatorLabel.text!
+            } else {
+                print("Document does not exist, unable to get username")
+            }
+        }
+    }
 }

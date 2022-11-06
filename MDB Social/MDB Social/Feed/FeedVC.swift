@@ -11,18 +11,6 @@ class FeedVC: UIViewController {
     
     var events: [Event] = []
     
-//    private let signOutButton: UIButton = {
-//        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-//        btn.backgroundColor = .primary
-//        btn.setImage(UIImage(systemName: "xmark"), for: .normal)
-//        let config = UIImage.SymbolConfiguration(font: .systemFont(ofSize: 30, weight: .medium))
-//        btn.setPreferredSymbolConfiguration(config, forImageIn: .normal)
-//        btn.tintColor = .white
-//        btn.layer.cornerRadius = 50
-//
-//        return btn
-//    }()
-    
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 30
@@ -43,7 +31,7 @@ class FeedVC: UIViewController {
         
         // Display collection view
         view.addSubview(collectionView)
-        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 100, left: 30, bottom: 0, right: 30))
+        collectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0))
         collectionView.backgroundColor = .clear
         collectionView.allowsSelection = true
         collectionView.allowsMultipleSelection = false
@@ -88,20 +76,20 @@ extension FeedVC: UICollectionViewDataSource {
 extension FeedVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 300, height: 350)
+        return CGSize(width: view.frame.width, height: 400)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let symbol = events[indexPath.item]
         print("Selected \(symbol.name)")
-        // MARK: Make a profile VC for each event upon click
+        // MARK: Upon click, toggle RSVP status
     }
 }
 
 class EventCell: UICollectionViewCell {
     static let reuseIdentifier = "EventCell"
     
-    private let imageView: UIImageView = {
+    let imageView: UIImageView = {
         let image = UIImageView()
         image.tintColor = .white
         image.contentMode = .scaleAspectFit
@@ -109,7 +97,17 @@ class EventCell: UICollectionViewCell {
         return image
     }()
     
-    private let nameDateLabel: UILabel = {
+    let nameLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let dateLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 10, weight: .medium)
@@ -119,7 +117,7 @@ class EventCell: UICollectionViewCell {
         return label
     }()
     
-    private let creatorLabel: UILabel = {
+    let creatorLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 10, weight: .medium)
@@ -129,7 +127,7 @@ class EventCell: UICollectionViewCell {
         return label
     }()
     
-    private let rsvpLabel: UILabel = {
+    let rsvpLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 10, weight: .medium)
@@ -157,9 +155,13 @@ class EventCell: UICollectionViewCell {
             }
             
             guard let event = symbol else { return }
-            nameDateLabel.text = "\(event.name)), \(event.startDate))"
-            creatorLabel.text = "Posted by \(event.creator)"
-            rsvpLabel.text = "Number of RSVPs: \(event.rsvpUsers.count)"
+            nameLabel.text = "\(event.name)"
+            dateLabel.text = "When: \(event.startDate.formatted())"
+            //creatorLabel.text = "Posted by \(event.creator)"
+            rsvpLabel.text = "RSVPs: \(event.rsvpUsers.count)"
+            
+            // Get the name of the user who posted this event.
+            Database.shared.setUserNameLabel(id: event.creator, cell: self)
         }
     }
     
@@ -167,18 +169,22 @@ class EventCell: UICollectionViewCell {
         super.init(frame: frame)
         // imageView.frame = contentView.bounds
         contentView.addSubview(imageView)
-        contentView.addSubview(nameDateLabel)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(dateLabel)
         contentView.addSubview(creatorLabel)
         contentView.addSubview(rsvpLabel)
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.centerYAnchor),
-            nameDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
-            nameDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            nameDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            creatorLabel.topAnchor.constraint(equalTo: nameDateLabel.bottomAnchor, constant: 10),
+            imageView.bottomAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 100),
+            nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            dateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            creatorLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 10),
             creatorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             creatorLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             rsvpLabel.topAnchor.constraint(equalTo: creatorLabel.bottomAnchor, constant: 10),
