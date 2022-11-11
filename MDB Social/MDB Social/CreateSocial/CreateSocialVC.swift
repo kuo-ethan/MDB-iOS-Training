@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// MARK: To-do: create an event object using inputs, then load it into firebase.
 class CreateSocialVC: UIViewController {
     
     private let stack: UIStackView = {
