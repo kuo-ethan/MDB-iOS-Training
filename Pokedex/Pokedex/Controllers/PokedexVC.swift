@@ -23,8 +23,11 @@ class PokedexVC: UIViewController {
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+<<<<<<< HEAD
         layout.minimumLineSpacing = 30
         layout.minimumInteritemSpacing = 30
+=======
+>>>>>>> 7cdf1f1 (10/16)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(PokemonCell.self, forCellWithReuseIdentifier: PokemonCell.reuseIdentifier)
         return collectionView
@@ -32,6 +35,7 @@ class PokedexVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+<<<<<<< HEAD
         
         // Create a single SettingsVC (to save state)
         settingsVC = SettingsVC(collectionView)
@@ -76,21 +80,49 @@ class PokedexVC: UIViewController {
 extension PokedexVC: UICollectionViewDataSource {
     
     // Set the number of cells in the collection view.
+=======
+        // Do any additional setup after loading the view.
+        collectionView.frame = view.bounds
+        view.addSubview(collectionView)
+        
+        // set constraints
+        
+        // toggle button for grid style
+        
+        // search bar (UISearchBarDelegate)
+        
+        // filter button, make FilterVC
+        
+        // use reloadData() on vc to show any updates
+    }
+}
+
+
+extension PokedexVC: UICollectionViewDataSource {
+>>>>>>> 7cdf1f1 (10/16)
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return pokemons.count
     }
     
+<<<<<<< HEAD
     // Get a PokemonCell for the pokemon specificied by indexPath.
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let symbol = pokemons[indexPath.item]
         // Grab a PokemonCell from the available pool
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonCell.reuseIdentifier, for: indexPath) as! PokemonCell
         cell.symbol = symbol
+=======
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let pokemon = pokemons[indexPath.item]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonCell.reuseIdentifier, for: indexPath) as! PokemonCell
+        cell.symbol = pokemon
+>>>>>>> 7cdf1f1 (10/16)
         return cell
     }
 }
 
 extension PokedexVC: UICollectionViewDelegateFlowLayout {
+<<<<<<< HEAD
     // Get the size of a cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if PokedexData.shared.gridLayoutOn {
@@ -190,5 +222,25 @@ class PokemonCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+=======
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 80, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        let symbol = SymbolProvider.symbols[indexPath.item]
+        
+        return UIContextMenuConfiguration(identifier: indexPath as NSCopying, previewProvider: {
+            return SFSPreviewVC(symbol: symbol)
+        }) { _ in
+            let okItem = UIAction(title: "OK", image: UIImage(systemName: "arrow.down.right.and.arrow.up.left")) { _ in }
+            return UIMenu(title: "", image: nil, identifier: nil, children: [okItem])
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let symbol = SymbolProvider.symbols[indexPath.item]
+        print("Selected \(symbol.name)")
+>>>>>>> 7cdf1f1 (10/16)
     }
 }
