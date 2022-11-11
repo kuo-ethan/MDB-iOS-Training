@@ -25,14 +25,14 @@ class FeedVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // MARK: add a right button on navigation controller for event creation
+        // MARK: add a left button on navigation controller for event creation
         // Make SocialCreationVC
         
         Database.shared.getAllEvents(vc: self)
         
         navigationItem.title = "MDB Socials"
         navigationItem.rightBarButtonItem = .init(title: "Sign Out", style: .plain, target: self, action: #selector(didTapSignOut))
-        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Create Event", style: .plain, target: self, action: #selector(didTapCreateEvent))
         
         // Display collection view
         view.addSubview(collectionView)
@@ -60,6 +60,10 @@ class FeedVC: UIViewController {
             let duration: TimeInterval = 0.3
             UIView.transition(with: window, duration: duration, options: options, animations: {}, completion: nil)
         }
+    }
+    
+    @objc func didTapCreateEvent(_ sender: UIButton) {
+        navigationController?.pushViewController(CreateSocialVC(), animated: true)
     }
 }
 
