@@ -8,6 +8,8 @@
 import UIKit
 
 class FeedVC: UIViewController {
+    // MARK: Bug: photos are wrong sometimes, possibly when no photo found? Try adding a default no photo picture
+    // MARK: Add a listener to db.collection to update feed whenever a new event is created
     
     var events: [Event] = []
     
@@ -22,6 +24,9 @@ class FeedVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // MARK: add a right button on navigation controller for event creation
+        // Make SocialCreationVC
         
         Database.shared.getAllEvents(vc: self)
         
@@ -82,7 +87,7 @@ extension FeedVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let symbol = events[indexPath.item]
         print("Selected \(symbol.name)")
-        // MARK: Upon click, toggle RSVP status
+        // MARK: Upon click, open SocialVC that includes description, RSVP button, and delete button
     }
 }
 
@@ -161,7 +166,7 @@ class EventCell: UICollectionViewCell {
             rsvpLabel.text = "RSVPs: \(event.rsvpUsers.count)"
             
             // Get the name of the user who posted this event.
-            Database.shared.setUserNameLabel(id: event.creator, cell: self)
+            Database.shared.setUserNameLabelOnEventCell(id: event.creator, cell: self)
         }
     }
     

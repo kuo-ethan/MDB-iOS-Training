@@ -38,6 +38,7 @@ class Database {
     // For example, see Authentication.linkUser(withuid:completion:)
     
     /* Retrieves all events ever created from firestore database. Then displays them in FeedVC. */
+    // MARK: Make method return events in chronological order
     func getAllEvents(vc: FeedVC) {
         // Read all events from database
         var events: [Event] = []
@@ -57,7 +58,7 @@ class Database {
     }
     
     /* Sets the username label of the EventCell object for the given UserID. */
-    func setUserNameLabel(id: UserID, cell: EventCell) {
+    func setUserNameLabelOnEventCell(id: UserID, cell: EventCell) {
         let docRef = db.collection("users").document(id)
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
